@@ -1,60 +1,14 @@
 # Interfaces em Java
-###### DevSuperior
 
-**Comunidade no Discord**:
-https://discord.gg/SbjpsFv
-
-Não perca as novidades:
-- https://instagram.com/devsuperior.ig
-- https://facebook.com/devsuperior.fb
-- https://youtube.com/devsuperior
-- https://twitter.com/devsuperior
-
-Vídeo desta aula:
-
-[![Image](https://img.youtube.com/vi/-_ObFKxG30Q/mqdefault.jpg "Vídeo no Youtube")](https://youtu.be/-_ObFKxG30Q)
-
-## Sumário
-- [O que você vai aprender](#O-que-você-vai-aprender)
-- [Pré-requisitos](#pré-requisitos)
-- [Enunciado do exercício](#Enunciado-do-exercício)
-- [Exemplo](#Exemplo)
-- [Diagramas](#Diagramas)
-
-## Aprendizados
-- Composição de entidades: no exemplo utilizado, as classes que se compõem são Contract e Installment,
-onde um Contrato (Contract) pode ter um ou N Prestações (Installments), ou seja, temos que 
-implementar de tal modo que Contract contenha uma lista de Installment. Ex: List<Installment> installments;
-- Composição de serviços
-- Interfaces: criamos a interface OnlinePaymentService que contém os métodos que as classes
-de serviço que a utilizarem serão "obrigadas" a implementar
-
+A interface é um recurso muito utilizado em Java, bem como na maioria das linguagens orientadas a objeto, para “obrigar” a um determinado grupo de classes a ter métodos ou propriedades em comum para existir em um determinado contexto, contudo os métodos podem ser implementados em cada classe de uma maneira diferente.
+Neste projeto veremos como as interfaces são úteis para Inversão de Controle e Injeção de Dependência.
 ```
-// Método para calcular o valor da taxa de processamento
-double paymentFee(double amount);
-    
-// Método para calcular os juros mensais
-double interest(double amount, int months);
+Inversão de Controle ou Inversion of Control - conhecido pela Sigla IoC é um Pattern que prega para usarmos o controle das instancias de uma determinada classe ser tratada externamente e não dentro da classe em questão, ou seja, Inverter o controle de uma classe delegando para uma outra classe, interface, componente, serviço, etc.
+```
+```
+Injeção de Dependência: em Java, antes de poder usar métodos de outras classes, primeiro precisamos criar o objeto daquela classe (ou seja, a classe A precisa criar uma instância da classe B). Desse modo, transferir a tarefa de criação do objeto a outra entidade e usar diretamente a dependência é chamado de injeção de dependência.
 ```
 
-
-
-- Inversão de controle / injeção de dependência: significa, na prática, que a classe ContractService,
-que faz irá consumir a classe PaypalService, não o fará diretamente, ela "pedirá" que a classe que a
-invocar, irá dizer qual o método de pagamento será utilizado e não necessariamente será o PayplaService,
-pode ser qualquer outra que implementar a interface OnlinePaymentService (ex: GooglePay, WePay, Payline etc.)
-Para isso, a classe ContractService deverá ter um construtor recebendo como parâmetro, a interface, para que,
-quem a invocar, informe a forma de pagamento, invertendo assim o controle.
-
-```
-  // Construtor da classe ContractService
-  public ContractService(OnlinePaymentService onlinePaymentService) {
-      this.onlinePaymentService = onlinePaymentService;
-  }
-  
-  // Classe principal Program, invocando ContractService. Inversão de controle. 
-  ContractService cs = new ContractService(new PaypalService());
-```
 
 ## Pré-requisitos
 
@@ -106,3 +60,44 @@ Parcela #3:
 ### Serviços
 
 ![myImage](https://github.com/devsuperior/aulao008/raw/master/services.png)
+
+## Aprendizados deste projeto
+- Composição de entidades: no exemplo utilizado, as classes que se compõem são Contract e Installment,
+onde um Contrato (Contract) pode ter um ou N Prestações (Installments), ou seja, temos que 
+implementar de tal modo que Contract contenha uma lista de Installment. Ex: List<Installment> installments;
+- Composição de serviços: o serviço de Contratos irá utilizar o serviço PaymentService para calcular taxas e juros.
+- Interfaces: criamos a interface OnlinePaymentService que contém os métodos que as classes
+de serviço que a utilizarem serão "obrigadas" a implementar
+
+```
+// Método para calcular o valor da taxa de processamento
+double paymentFee(double amount);
+    
+// Método para calcular os juros mensais
+double interest(double amount, int months);
+```
+
+
+
+- Inversão de controle / injeção de dependência: significa, na prática, que a classe ContractService,
+que faz irá consumir a classe PaypalService, não o fará diretamente, ela "pedirá" que a classe que a
+invocar, irá dizer qual o método de pagamento será utilizado e não necessariamente será o PayplaService,
+pode ser qualquer outra que implementar a interface OnlinePaymentService (ex: GooglePay, WePay, Payline etc.)
+Para isso, a classe ContractService deverá ter um construtor recebendo como parâmetro, a interface, para que,
+quem a invocar, informe a forma de pagamento, invertendo assim o controle.
+
+```
+  // Construtor da classe ContractService
+  public ContractService(OnlinePaymentService onlinePaymentService) {
+      this.onlinePaymentService = onlinePaymentService;
+  }
+  
+  // Classe principal Program, invocando ContractService. Inversão de controle. 
+  ContractService cs = new ContractService(new PaypalService());
+```
+
+###### DevSuperior
+
+Vídeo desta aula:
+
+[![Image](https://img.youtube.com/vi/-_ObFKxG30Q/mqdefault.jpg "Vídeo no Youtube")](https://youtu.be/-_ObFKxG30Q)
